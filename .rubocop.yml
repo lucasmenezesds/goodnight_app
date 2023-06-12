@@ -30,3 +30,6 @@ Metrics/MethodLength:
 
 Style/Documentation:
   Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false

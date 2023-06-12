@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
-if ENV['RAILS_ENV'] == 'test'
+if ENV['RAILS_ENV'] != 'production'
   require 'simplecov'
-  SimpleCov.start 'rails'
+  SimpleCov.start 'rails' do
+    add_filter 'spec/'
+
+    enable_coverage :branch
+  end
 end
 
 RSpec.configure do |config|

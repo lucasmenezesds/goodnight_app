@@ -7,6 +7,8 @@ ruby '3.1.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.7', '>= 6.1.7.3'
+# Soft-delete
+gem 'paranoia', '~> 2.6', '>= 2.6.2'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
 # Use Pry as your rails console
@@ -25,6 +27,7 @@ group :development, :test do
   gem 'dotenv-rails', '~> 2.8', '>= 2.8.1'
   gem 'factory_bot', '~> 6.2', '>= 6.2.1'
   gem 'factory_bot_rails', '~> 6.2'
+  gem 'faker', '~> 3.2'
   gem 'guard', '~> 2.18'
   gem 'guard-rspec', '~> 4.7', '>= 4.7.3'
   gem 'pry-byebug', '~> 3.10', '>= 3.10.1'
