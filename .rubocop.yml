@@ -1,0 +1,27 @@
+# See https://docs.rubocop.org/rubocop/configuration
+
+require:
+  - rubocop-factory_bot
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'config/**/*'
+  NewCops: enable
+  TargetRubyVersion: 3
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Layout/LineLength:
+  Max: 150
+
+Metrics/MethodLength:
+  Max: 15
