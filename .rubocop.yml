@@ -9,6 +9,8 @@ AllCops:
   Exclude:
     - 'bin/**/*'
     - 'config/**/*'
+    - 'db/schema.rb'
+    - 'db/migrate/*'
   NewCops: enable
   TargetRubyVersion: 3
 
@@ -25,3 +27,6 @@ Layout/LineLength:
 
 Metrics/MethodLength:
   Max: 15
+
+Style/Documentation:
+  Enabled: false
