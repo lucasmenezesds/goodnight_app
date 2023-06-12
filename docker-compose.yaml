@@ -1,0 +1,45 @@
+version: '3.5'
+
+services:
+  app:
+    container_name: "goodnight_app"
+    tmpfs:
+      - /tmp
+      - /app/tmp/pids
+    build:
+      context: .
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: "goodnight_app_db"
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      RAILS_ENV: ${RAILS_ENV:-development}
+    volumes:
+      - .:/app
+      - ${BUNDLE_CACHE_PATH}:/usr/local/bundle
+    networks:
+      - goodnight_app_network
+    command: >
+      bin/app/docker-entry
+
+  db:
+    container_name: "goodnight_app_db"
+    image: postgres:15
+    volumes:
+      - ${POSTGRES_VOLUME}:/var/lib/postgresql/data
+    ports:
+      - "54432:5432"
+    networks:
+      - goodnight_app_network
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+networks:
+  goodnight_app_network:
+    name: "goodnight_app_network"
+    driver: bridge

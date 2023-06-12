@@ -26,3 +26,5 @@
 # IDEs
 .vscode/
 .idea/
+
+.env

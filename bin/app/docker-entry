@@ -1,0 +1,10 @@
+#!/bin/bash -e
+
+bundle install
+
+if [ -f tmp/pids/server.pid ]; then
+  rm tmp/pids/server.pid
+fi
+
+echo -e "\n== Starting sleep for development =="
+sleep 7d
