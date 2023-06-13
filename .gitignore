@@ -27,6 +27,10 @@
 .vscode/
 .idea/
 
+# .env files
+!.env.template
+!.env.example
 .env
+.env.*
 
 coverage/
