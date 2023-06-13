@@ -37,5 +37,11 @@ Style/ClassAndModuleChildren:
 Style/Documentation:
   Enabled: false
 
+RSpec/ExampleLength:
+  Max: 25
+
 RSpec/MultipleExpectations:
   Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
