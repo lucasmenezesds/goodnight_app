@@ -10,11 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_14_070448) do
+ActiveRecord::Schema.define(version: 2023_06_14_151336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "relationships", force: :cascade do |t|
+    t.uuid "source_id", null: false
+    t.uuid "target_id", null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deleted_at"], name: "index_relationships_on_deleted_at"
+    t.index ["source_id", "target_id"], name: "index_relationships_on_source_id_and_target_id", unique: true
+    t.index ["source_id"], name: "index_relationships_on_source_id"
+    t.index ["target_id"], name: "index_relationships_on_target_id"
+  end
 
   create_table "sleep_logs", force: :cascade do |t|
     t.uuid "user_id", null: false
@@ -38,5 +50,7 @@ ActiveRecord::Schema.define(version: 2023_06_14_070448) do
     t.index ["deleted_at"], name: "index_users_on_deleted_at"
   end
 
+  add_foreign_key "relationships", "users", column: "source_id"
+  add_foreign_key "relationships", "users", column: "target_id"
   add_foreign_key "sleep_logs", "users"
 end
