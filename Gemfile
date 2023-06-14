@@ -23,6 +23,9 @@ gem 'pry-rails', '~> 0.3.9'
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
 
+# Catch unsafe migrations in development => https://github.com/ankane/strong_migrations
+gem 'strong_migrations', '~> 1.4', '>= 1.4.4'
+
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
