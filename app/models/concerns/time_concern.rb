@@ -1,0 +1,10 @@
+# frozen_string_literal: true
+
+module TimeConcern
+  STANDARD_DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
+  STANDARD_DURATION_FORMAT = '%H:%M'
+
+  def self.format_datetime(time)
+    time.strftime(STANDARD_DATETIME_FORMAT)
+  end
+end

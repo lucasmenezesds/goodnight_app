@@ -19,8 +19,8 @@ describe Api::V1::SleepLogsController do
       get "/api/v1/users/#{user.id}/sleep_logs", headers: {}, as: :json
 
       expected_data = [
-        { id: log1.id, user_id: user.id, created_at: timestamp }.stringify_keys,
-        { id: log2.id, user_id: user.id, created_at: timestamp2 }.stringify_keys
+        { uuid: log1.uuid, user_id: user.id, slept_at: timestamp, duration: nil, woke_up_at: nil }.stringify_keys,
+        { uuid: log2.uuid, user_id: user.id, slept_at: timestamp2, duration: nil, woke_up_at: nil }.stringify_keys
       ]
 
       expect(response).to be_successful
@@ -48,7 +48,7 @@ describe Api::V1::SleepLogsController do
           response_keys = response.parsed_body.fetch('data').keys
           expect(response).to have_http_status(:created)
           expect(response.content_type).to match(a_string_including('application/json'))
-          expect(response_keys).to match_array(%w[id user_id created_at])
+          expect(response_keys).to match_array(%w[uuid user_id slept_at woke_up_at duration])
         end.to change(SleepLog, :count).by(1)
       end
     end

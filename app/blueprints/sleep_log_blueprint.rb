@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class SleepLogBlueprint < Blueprinter::Base
-  identifier :id
+  identifier :uuid
 
   field :user_id
-  field :created_at, datetime_format: '%Y-%m-%dT%H:%M:%S'
+  field :slept_at, datetime_format: TimeConcern::STANDARD_DATETIME_FORMAT
+  field :woke_up_at, datetime_format: TimeConcern::STANDARD_DATETIME_FORMAT
+  field :duration, datetime_format: TimeConcern::STANDARD_DURATION_FORMAT
 end
