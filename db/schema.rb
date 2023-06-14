@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_14_063702) do
+ActiveRecord::Schema.define(version: 2023_06_14_070448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -22,10 +22,12 @@ ActiveRecord::Schema.define(version: 2023_06_14_063702) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "woke_up_at", precision: 6
     t.time "duration"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.index ["created_at"], name: "index_sleep_logs_on_created_at"
     t.index ["user_id", "created_at"], name: "index_sleep_logs_on_user_id_and_created_at_by_desc_order", order: { created_at: :desc }
     t.index ["user_id", "duration"], name: "index_sleep_logs_on_user_id_and_duration_by_desc_order", order: { duration: :desc }
     t.index ["user_id"], name: "index_sleep_logs_on_user_id"
+    t.index ["uuid"], name: "index_sleep_logs_on_uuid", unique: true
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
