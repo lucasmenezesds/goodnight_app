@@ -34,6 +34,7 @@ gem 'strong_migrations', '~> 1.4', '>= 1.4.4'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'database_cleaner-active_record', '~> 2.1' # Avoid flaky tests by cleaning databases using ActiveRecord
   gem 'dotenv-rails', '~> 2.8', '>= 2.8.1'
   gem 'factory_bot', '~> 6.2', '>= 6.2.1'
   gem 'factory_bot_rails', '~> 6.2'
@@ -45,6 +46,7 @@ group :development, :test do
   gem 'rubocop-rails', '~> 2.19', '>= 2.19.1'
   gem 'rubocop-rspec', '~> 2.22'
   gem 'simplecov', '~> 0.22.0'
+  gem 'timecop', '~> 0.9.6'
 end
 
 group :development do
