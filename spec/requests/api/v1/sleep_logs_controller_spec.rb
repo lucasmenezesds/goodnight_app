@@ -74,7 +74,7 @@ describe Api::V1::SleepLogsController do
             'user_id' => user.id,
             'slept_at' => timestamp,
             'woke_up_at' => expected_woke_up_time,
-            'duration' => '08:00'
+            'duration' => '08:00:00'
           }
 
           expect_successful_created_response
