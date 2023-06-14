@@ -5,26 +5,26 @@ class Api::V1::SleepLogsController < ApplicationController
 
   # GET /api/v1/users/:user_id/sleep_logs
   def index
-    @sleep_records = @user.sleep_logs.order(created_at: :desc)
+    @sleep_log = @user.sleep_logs.order(created_at: :desc)
 
-    render json: { data: SleepLogBlueprint.render_as_json(@sleep_records) }, status: :ok
+    render json: { data: SleepLogBlueprint.render_as_json(@sleep_log) }, status: :ok
   end
 
   # GET /api/v1/users/:user_id/sleep_logs/last
   def last
-    last_record = @user.sleep_logs.last
+    last_log = @user.sleep_logs.last
 
-    render json: { data: SleepLogBlueprint.render_as_json(last_record) }, status: :ok
+    render json: { data: SleepLogBlueprint.render_as_json(last_log) }, status: :ok
   end
 
   # POST /api/v1/users/:user_id/sleep_logs
   def create
-    @sleep_record = @user.sleep_logs.new
+    @sleep_log = SleepLogService.log_sleep_data(@user)
 
-    if @sleep_record.save
-      render json: { data: SleepLogBlueprint.render_as_json(@sleep_record) }, status: :created
+    if @sleep_log.save
+      render json: { data: SleepLogBlueprint.render_as_json(@sleep_log) }, status: :created
     else
-      render json: { errors: @sleep_record.errors, data: {} }, status: :unprocessable_entity
+      render json: { errors: @sleep_log.errors, data: {} }, status: :unprocessable_entity
     end
   end
 

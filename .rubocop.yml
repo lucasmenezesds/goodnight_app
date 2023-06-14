@@ -40,8 +40,14 @@ Style/Documentation:
 RSpec/ExampleLength:
   Max: 25
 
+RSpec/MessageChain:
+  Enabled: false
+
 RSpec/MultipleExpectations:
   Enabled: false
 
 RSpec/MultipleMemoizedHelpers:
   Max: 10
+
+RSpec/StubbedMock:
+  Enabled: false
