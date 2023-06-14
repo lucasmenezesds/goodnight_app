@@ -1,11 +1,20 @@
 # frozen_string_literal: true
 
-if ENV['RAILS_ENV'] == 'test'
+if ENV['RAILS_ENV'] != 'production'
   require 'simplecov'
-  SimpleCov.start 'rails'
+  SimpleCov.start 'rails' do
+    add_filter 'spec/'
+
+    enable_coverage :branch
+  end
 end
 
 RSpec.configure do |config|
+  # Clean up the Database
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

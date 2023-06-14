@@ -9,6 +9,8 @@ AllCops:
   Exclude:
     - 'bin/**/*'
     - 'config/**/*'
+    - 'db/schema.rb'
+    - 'db/migrate/*'
   NewCops: enable
   TargetRubyVersion: 3
 
@@ -20,8 +22,32 @@ Style/StringLiteralsInInterpolation:
   Enabled: true
   EnforcedStyle: double_quotes
 
+FactoryBot/AssociationStyle:
+  EnforcedStyle: explicit
+
 Layout/LineLength:
   Max: 150
 
 Metrics/MethodLength:
   Max: 15
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 25
+
+RSpec/MessageChain:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
+
+RSpec/StubbedMock:
+  Enabled: false
