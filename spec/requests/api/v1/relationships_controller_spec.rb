@@ -41,7 +41,7 @@ describe Api::V1::RelationshipsController do
     end
 
     context 'when user doesnt have any follower and doesnt follow anyone' do
-      it 'renders a successful response with present empty following and followers data' do
+      it 'renders a successful response with empty following and followers data' do
         get "/api/v1/users/#{user_e.id}/relationships", headers: {}, as: :json
 
         expected_data = {
@@ -56,7 +56,7 @@ describe Api::V1::RelationshipsController do
     end
 
     context 'when user doesnt have any followers and but follows people' do
-      it 'renders a successful response with present empty following but present followers data' do
+      it 'renders a successful response with empty following but present followers data' do
         get "/api/v1/users/#{user_d.id}/relationships", headers: {}, as: :json
 
         expected_data = {
