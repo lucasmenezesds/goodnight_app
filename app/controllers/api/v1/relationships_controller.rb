@@ -57,6 +57,20 @@ class Api::V1::RelationshipsController < ApplicationController
                                                               followers: followers) }, status: :ok
   end
 
+  # GET /api/v1/users/:user_id/relationships/following/sleep_logs
+  def sleep_logs_from_users_im_following
+    @sleep_logs = SleepLogService.logs_from_people_user_is_following(@user)
+
+    render json: { data: SleepLogBlueprint.render_as_json(@sleep_logs, view: :with_user_name) }, status: :ok
+  end
+
+  # GET /api/v1/users/:user_id/relationships/followers/sleep_logs
+  def sleep_logs_from_my_followers
+    @sleep_log = SleepLogService.logs_from_followers(@user)
+
+    render json: { data: SleepLogBlueprint.render_as_json(@sleep_log, view: :with_user_name) }, status: :ok
+  end
+
   private
 
   def set_user

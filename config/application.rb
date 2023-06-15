@@ -29,6 +29,9 @@ module GoodNightApp
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
 
+    # Set the beginning of the week to be Sunday
+    config.beginning_of_week = :sunday
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

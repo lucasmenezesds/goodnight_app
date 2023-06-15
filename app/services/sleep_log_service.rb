@@ -11,4 +11,19 @@ module SleepLogService
       last_sleep_log
     end
   end
+
+  def self.logs_from_people_user_is_following(user)
+    SleepLog.joins(user: :followed_relationships)
+            .where(followed_relationships: { source_id: user.id })
+            .where(sleep_logs: { created_at: 1.week.ago.all_week })
+            .order(duration: :desc)
+  end
+
+  def self.logs_from_followers(user)
+    # Different approach, but this approach does two queries instead of one.
+    SleepLog.where(user_id: user.followers.pluck(:id))
+            .where(sleep_logs: { created_at: 1.week.ago.all_week })
+            # .where('sleep_logs.created_at >= ?', 1.week.ago.beginning_of_day) # In case is the the previous 7 days
+            .order(duration: :desc)
+  end
 end

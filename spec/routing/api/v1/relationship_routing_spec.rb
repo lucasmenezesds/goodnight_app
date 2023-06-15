@@ -27,5 +27,15 @@ describe Api::V1::RelationshipsController do
                                                                                         user_id: ':user_id',
                                                                                         other_user_id: ':other_user_id')
     end
+
+    it 'routes to /following/sleep_logs' do
+      expect(get: '/api/v1/users/:user_id/relationships/following/sleep_logs').to route_to('api/v1/relationships#sleep_logs_from_users_im_following',
+                                                                                           user_id: ':user_id')
+    end
+
+    it 'routes to /followers/sleep_logs' do
+      expect(get: '/api/v1/users/:user_id/relationships/followers/sleep_logs').to route_to('api/v1/relationships#sleep_logs_from_my_followers',
+                                                                                           user_id: ':user_id')
+    end
   end
 end

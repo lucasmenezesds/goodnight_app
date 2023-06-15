@@ -10,6 +10,10 @@ Rails.application.routes.draw do
           # Follow / Unfollow Actions
           post ':other_user_id', to: 'relationships#follow', on: :collection
           delete ':other_user_id', to: 'relationships#unfollow', on: :collection
+
+          # Sleep Logs
+          get 'following/sleep_logs', to: 'relationships#sleep_logs_from_users_im_following', on: :collection
+          get 'followers/sleep_logs', to: 'relationships#sleep_logs_from_my_followers', on: :collection
         end
 
         # Clock in endpoints
