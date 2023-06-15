@@ -8,6 +8,17 @@ class RelationshipBlueprint < Blueprinter::Base
       user.name
     end
   end
+  view :following_relationships do
+    field :following do |_user, options|
+      UserBlueprint.render_as_hash(options[:following])
+    end
+  end
+
+  view :followers_relationships do
+    field :followers do |_user, options|
+      UserBlueprint.render_as_hash(options[:followers])
+    end
+  end
 
   view :all_relationships do
     field :following do |_user, options|

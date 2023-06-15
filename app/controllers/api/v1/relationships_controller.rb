@@ -39,6 +39,24 @@ class Api::V1::RelationshipsController < ApplicationController
     end
   end
 
+  # GET /api/v1/users/:user_id/relationships/following
+  def following
+    following = @user.following
+
+    render json: { data: RelationshipBlueprint.render_as_json(@user,
+                                                              view: :following_relationships,
+                                                              following: following) }, status: :ok
+  end
+
+  # GET /api/v1/users/:user_id/relationships/followers
+  def followers
+    followers = @user.followers
+
+    render json: { data: RelationshipBlueprint.render_as_json(@user,
+                                                              view: :followers_relationships,
+                                                              followers: followers) }, status: :ok
+  end
+
   private
 
   def set_user

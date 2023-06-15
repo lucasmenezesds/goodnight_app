@@ -9,7 +9,7 @@ describe Api::V1::RelationshipsController do
   let(:user_d) { create(:user, name: 'UserD') }
   let(:user_e) { create(:user, name: 'UserE') }
 
-  describe 'GET /api/v1/users/:user_id/relationships' do
+  describe 'GET /api/v1/users/:user_id/relationships related endpoints' do
     before do
       create(:relationship, source: user_a, target: user_b) # UserA => UserB
       create(:relationship, source: user_a, target: user_c) # UserA => UserC
@@ -18,57 +18,98 @@ describe Api::V1::RelationshipsController do
       create(:relationship, source: user_d, target: user_a) # UserD => UserA
     end
 
-    context 'when user follows and has followers' do
-      it 'renders a successful response with present following and followers data' do
-        get "/api/v1/users/#{user_a.id}/relationships", headers: {}, as: :json
+    describe 'GET /api/v1/users/:user_id/relationships' do
+      context 'when user follows and has followers' do
+        it 'renders a successful response with present following and followers data' do
+          get "/api/v1/users/#{user_a.id}/relationships", headers: {}, as: :json
 
-        expected_data = {
-          'user_id' => user_a.id,
-          'following' => [
-            { user_id: user_b.id, name: user_b.name }.stringify_keys,
-            { user_id: user_c.id, name: user_c.name }.stringify_keys
-          ],
-          'followers' => [
-            { user_id: user_b.id, name: user_b.name }.stringify_keys,
-            { user_id: user_c.id, name: user_c.name }.stringify_keys,
-            { user_id: user_d.id, name: user_d.name }.stringify_keys
-          ]
-        }
+          expected_data = {
+            'user_id' => user_a.id,
+            'following' => [
+              { user_id: user_b.id, name: user_b.name }.stringify_keys,
+              { user_id: user_c.id, name: user_c.name }.stringify_keys
+            ],
+            'followers' => [
+              { user_id: user_b.id, name: user_b.name }.stringify_keys,
+              { user_id: user_c.id, name: user_c.name }.stringify_keys,
+              { user_id: user_d.id, name: user_d.name }.stringify_keys
+            ]
+          }
 
-        expect(response).to be_successful
-        expect(response.parsed_body).to eq({ 'data' => expected_data })
+          expect(response).to be_successful
+          expect(response.parsed_body).to eq({ 'data' => expected_data })
+        end
+      end
+
+      context 'when user doesnt have any follower and doesnt follow anyone' do
+        it 'renders a successful response with empty following and followers data' do
+          get "/api/v1/users/#{user_e.id}/relationships", headers: {}, as: :json
+
+          expected_data = {
+            'user_id' => user_e.id,
+            'following' => [],
+            'followers' => []
+          }
+
+          expect(response).to be_successful
+          expect(response.parsed_body).to eq({ 'data' => expected_data })
+        end
+      end
+
+      context 'when user doesnt have any followers and but follows people' do
+        it 'renders a successful response with empty following but present followers data' do
+          get "/api/v1/users/#{user_d.id}/relationships", headers: {}, as: :json
+
+          expected_data = {
+            'user_id' => user_d.id,
+            'followers' => [],
+            'following' => [
+              { user_id: user_a.id, name: user_a.name }.stringify_keys
+            ]
+          }
+
+          expect(response).to be_successful
+          expect(response.parsed_body).to eq({ 'data' => expected_data })
+        end
       end
     end
 
-    context 'when user doesnt have any follower and doesnt follow anyone' do
-      it 'renders a successful response with empty following and followers data' do
-        get "/api/v1/users/#{user_e.id}/relationships", headers: {}, as: :json
+    describe 'GET /api/v1/users/:user_id/relationships/following' do
+      context 'when user is following some people' do
+        it 'renders a successful response with expected data' do
+          get "/api/v1/users/#{user_a.id}/relationships/following", headers: {}, as: :json
 
-        expected_data = {
-          'user_id' => user_e.id,
-          'following' => [],
-          'followers' => []
-        }
+          expected_data = {
+            'user_id' => user_a.id,
+            'following' => [
+              { user_id: user_b.id, name: user_b.name }.stringify_keys,
+              { user_id: user_c.id, name: user_c.name }.stringify_keys
+            ]
+          }
 
-        expect(response).to be_successful
-        expect(response.parsed_body).to eq({ 'data' => expected_data })
+          expect(response).to have_http_status(:ok)
+          expect(response.parsed_body).to eq({ 'data' => expected_data })
+        end
       end
     end
 
-    context 'when user doesnt have any followers and but follows people' do
-      it 'renders a successful response with empty following but present followers data' do
-        get "/api/v1/users/#{user_d.id}/relationships", headers: {}, as: :json
+    describe 'GET /api/v1/users/:user_id/relationships/followers' do
+      context 'when user has some followers' do
+        it 'renders a successful response with the expected followers data' do
+          get "/api/v1/users/#{user_a.id}/relationships/followers", headers: {}, as: :json
 
-        expected_data = {
-          'user_id' => user_d.id,
-          'followers' => [],
-          'following' => [
-            { user_id: user_a.id, name: user_a.name }.stringify_keys
-          ]
-        }
+          expected_data = {
+            'user_id' => user_a.id,
+            'followers' => [
+              { user_id: user_b.id, name: user_b.name }.stringify_keys,
+              { user_id: user_c.id, name: user_c.name }.stringify_keys,
+              { user_id: user_d.id, name: user_d.name }.stringify_keys
+            ]
+          }
 
-        expect(response).to be_successful
-        expect(response.parsed_body).to eq({ 'data' => expected_data })
+          expect(response).to have_http_status(:ok)
+          expect(response.parsed_body).to eq({ 'data' => expected_data })
+        end
       end
     end
   end

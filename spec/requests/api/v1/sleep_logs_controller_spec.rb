@@ -24,8 +24,8 @@ describe Api::V1::SleepLogsController do
       get "/api/v1/users/#{user.id}/sleep_logs", headers: {}, as: :json
 
       expected_data = [
-        { uuid: log1.uuid, user_id: user.id, slept_at: timestamp, duration: nil, woke_up_at: nil }.stringify_keys,
-        { uuid: log2.uuid, user_id: user.id, slept_at: timestamp2, duration: nil, woke_up_at: nil }.stringify_keys
+        { uuid: log1.uuid, user_id: user.id, user_name: user.name, slept_at: timestamp, duration: nil, woke_up_at: nil }.stringify_keys,
+        { uuid: log2.uuid, user_id: user.id, user_name: user.name, slept_at: timestamp2, duration: nil, woke_up_at: nil }.stringify_keys
       ]
 
       expect(response).to be_successful
@@ -40,7 +40,7 @@ describe Api::V1::SleepLogsController do
       get "/api/v1/users/#{user.id}/sleep_logs/last", headers: {}, as: :json
 
       expect(response).to be_successful
-      expect(response.parsed_body).to eq({ 'data' => SleepLogBlueprint.render_as_json(sleep_log) })
+      expect(response.parsed_body).to eq({ 'data' => SleepLogBlueprint.render_as_json(sleep_log, view: :with_user_name) })
     end
   end
 
@@ -52,7 +52,7 @@ describe Api::V1::SleepLogsController do
 
           response_keys = response.parsed_body.fetch('data').keys
           expect_successful_created_response
-          expect(response_keys).to match_array(%w[uuid user_id slept_at woke_up_at duration])
+          expect(response_keys).to match_array(%w[uuid user_id user_name slept_at woke_up_at duration])
         end.to change(SleepLog, :count).by(1)
       end
     end
@@ -72,6 +72,7 @@ describe Api::V1::SleepLogsController do
           expectations = {
             'uuid' => log.uuid,
             'user_id' => user.id,
+            'user_name' => user.name,
             'slept_at' => timestamp,
             'woke_up_at' => expected_woke_up_time,
             'duration' => '08:00:00'
@@ -80,6 +81,7 @@ describe Api::V1::SleepLogsController do
           expect_successful_created_response
           expect(response_data['uuid']).to eq(expectations['uuid'])
           expect(response_data['user_id']).to eq(expectations['user_id'])
+          expect(response_data['user_name']).to eq(expectations['user_name'])
           expect(response_data['slept_at']).to eq(expectations['slept_at'])
           expect(response_data['woke_up_at']).to eq(expectations['woke_up_at'])
           expect(response_data['duration']).to eq(expectations['duration'])
@@ -103,6 +105,7 @@ describe Api::V1::SleepLogsController do
           expectations = {
             'uuid' => log.id,
             'user_id' => user.id,
+            'user_name' => user.name,
             'slept_at' => expected_slept_at,
             'woke_up_at' => nil,
             'duration' => nil
@@ -112,6 +115,7 @@ describe Api::V1::SleepLogsController do
           expect(user.sleep_logs.size).to eq(2)
           expect(response_data['uuid']).not_to eq(expectations['uuid'])
           expect(response_data['user_id']).to eq(expectations['user_id'])
+          expect(response_data['user_name']).to eq(expectations['user_name'])
           expect(response_data['slept_at']).to eq(expectations['slept_at'])
           expect(response_data['woke_up_at']).to eq(expectations['woke_up_at'])
           expect(response_data['duration']).to eq(expectations['duration'])
