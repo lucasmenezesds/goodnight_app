@@ -36,15 +36,8 @@ module RelationshipService
     if person.is_a?(User)
       person
     else
-      find_user!(person)
+      User.find(person)
     end
-  end
-
-  def self.find_user!(person_to_follow_id)
-    person = User.find_by(id: person_to_follow_id)
-    raise StandardError unless person.respond_to?(:id)
-
-    person
   end
 
   def self.successful_action(user_data, action)
