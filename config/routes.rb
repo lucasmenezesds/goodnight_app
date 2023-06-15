@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :users, only: [] do
+      resources :users, only: [:index, :show] do
 
         # Follow / Unfollow related endpoints
         resources :relationships, only: [:index] do
