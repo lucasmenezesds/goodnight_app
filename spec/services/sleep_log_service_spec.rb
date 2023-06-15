@@ -94,7 +94,7 @@ describe SleepLogService, type: :service do
       end
 
       context 'when the user is following some people' do
-        it 'returns an the expected data from the previous week (June 4th to June 10th)' do
+        it 'returns an the expected data from the previous week (June 4th to June 11th)' do
           result = described_class.logs_from_people_user_is_following(user)
 
           expected_result = [
@@ -124,7 +124,7 @@ describe SleepLogService, type: :service do
       end
 
       context 'when the user has some followers' do
-        it 'returns an the expected data from the previous week (June 4th to June 10th)' do
+        it 'returns an the expected data from the previous week (June 4th to June 11th)' do
           result = described_class.logs_from_followers(user_c)
 
           expected_result = [

@@ -66,9 +66,9 @@ class Api::V1::RelationshipsController < ApplicationController
 
   # GET /api/v1/users/:user_id/relationships/followers/sleep_logs
   def sleep_logs_from_my_followers
-    @sleep_log = SleepLogService.logs_from_followers(@user)
+    @sleep_logs = SleepLogService.logs_from_followers(@user)
 
-    render json: { data: SleepLogBlueprint.render_as_json(@sleep_log, view: :with_user_name) }, status: :ok
+    render json: { data: SleepLogBlueprint.render_as_json(@sleep_logs, view: :with_user_name) }, status: :ok
   end
 
   private
