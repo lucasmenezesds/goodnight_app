@@ -41,7 +41,7 @@ WORKDIR $APP_DIR
 
 # Upgrade RubyGems and install the latest Bundler version
 RUN gem update --system && \
-    gem install bundler -v 2.4.13
+    gem install bundler -v 2.4.14
 
 # Adding some aliases
 RUN echo 'alias stop_warnings="export RUBYOPT="-W0""' >> ~/.bashrc

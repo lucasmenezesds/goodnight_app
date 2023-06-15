@@ -28,9 +28,9 @@
 .idea/
 
 # .env files
-!.env.template
-!.env.example
 .env
 .env.*
+!.env.template
+!.env.example
 
 coverage/
