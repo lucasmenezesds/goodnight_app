@@ -8,6 +8,14 @@ describe Api::V1::RelationshipsController do
       expect(get: '/api/v1/users/:user_id/relationships/').to route_to('api/v1/relationships#index', user_id: ':user_id')
     end
 
+    it 'routes to #following (to list who the user is following)' do
+      expect(get: '/api/v1/users/:user_id/relationships/following').to route_to('api/v1/relationships#following', user_id: ':user_id')
+    end
+
+    it 'routes to #followers (to list who follows the user)' do
+      expect(get: '/api/v1/users/:user_id/relationships/followers').to route_to('api/v1/relationships#followers', user_id: ':user_id')
+    end
+
     it 'routes to #follow (to follow someone)' do
       expect(post: '/api/v1/users/:user_id/relationships/:other_user_id').to route_to('api/v1/relationships#follow',
                                                                                       user_id: ':user_id',
