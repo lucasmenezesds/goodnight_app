@@ -66,6 +66,12 @@ via command line, navigate to the project, then run the following commands:
 
 --- 
 
+## Running the test suite
+
+For running the test suite you just need to run the command: `bin/app/run_tests`
+
+Or you can access the bash inside the container and make sure that you're setting `RAILS_ENV=test` when running rspec.
+
 ## API Documentation
 
 The API has endpoints that are related to:
