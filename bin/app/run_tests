@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "Starting the test suite..."
+docker exec -it goodnight_app bash -c "RAILS_ENV=test bundle exec rspec"
+echo "Finished the test suite"

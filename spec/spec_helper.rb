@@ -11,8 +11,10 @@ end
 
 RSpec.configure do |config|
   # Clean up the Database
-  config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
+  if ENV['RAILS_ENV'] == 'test'
+    config.before(:suite) do
+      DatabaseCleaner.clean_with(:truncation)
+    end
   end
 
   # rspec-expectations config goes here. You can use an alternate
