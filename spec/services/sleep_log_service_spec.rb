@@ -51,6 +51,7 @@ describe SleepLogService, type: :service do
     let(:user_d) { create(:user, name: 'UserD') }
     let(:user_e) { create(:user, name: 'UserE') }
 
+    time_now = Time.zone.parse('2023-06-15T16:52:23')
     before do
       create(:relationship, source: user, target: user_b) # UserA => UserB*
       create(:relationship, source: user, target: user_c) # UserA => UserC*
@@ -59,7 +60,6 @@ describe SleepLogService, type: :service do
       create(:relationship, source: user_d, target: user) # UserD => UserA
       create(:relationship, source: user_d, target: user_c) # UserD => UserC
 
-      time_now = Time.zone.parse('2023-06-15T16:52:23')
       Timecop.freeze(time_now) do
         # UserA
         create(:sleep_log, user: user, created_at: time_now - 2.hours, woke_up_at: time_now) # 2 hours
@@ -95,21 +95,23 @@ describe SleepLogService, type: :service do
 
       context 'when the user is following some people' do
         it 'returns an the expected data from the previous week (June 4th to June 11th)' do
-          result = described_class.logs_from_people_user_is_following(user)
+          Timecop.freeze(time_now) do
+            result = described_class.logs_from_people_user_is_following(user)
 
-          expected_result = [
-            { duration: '10:00:00', user_id: user_b.id },
-            { duration: '09:30:00', user_id: user_c.id },
-            { duration: '05:00:00', user_id: user_b.id },
-            { duration: '04:30:00', user_id: user_c.id },
-            { duration: '04:00:00', user_id: user_b.id },
-            { duration: '03:00:00', user_id: user_c.id }
-          ]
+            expected_result = [
+              { duration: '10:00:00', user_id: user_b.id },
+              { duration: '09:30:00', user_id: user_c.id },
+              { duration: '05:00:00', user_id: user_b.id },
+              { duration: '04:30:00', user_id: user_c.id },
+              { duration: '04:00:00', user_id: user_b.id },
+              { duration: '03:00:00', user_id: user_c.id }
+            ]
 
-          mapped_data = result.map { |log| { duration: log.duration.strftime('%H:%M:%S'), user_id: log.user_id } }
+            mapped_data = result.map { |log| { duration: log.duration.strftime('%H:%M:%S'), user_id: log.user_id } }
 
-          expect(result.size).to eq(6)
-          expect(mapped_data).to eq(expected_result)
+            expect(result.size).to eq(6)
+            expect(mapped_data).to eq(expected_result)
+          end
         end
       end
     end
@@ -125,18 +127,20 @@ describe SleepLogService, type: :service do
 
       context 'when the user has some followers' do
         it 'returns an the expected data from the previous week (June 4th to June 11th)' do
-          result = described_class.logs_from_followers(user_c)
+          Timecop.freeze(time_now) do
+            result = described_class.logs_from_followers(user_c)
 
-          expected_result = [
-            { duration: '09:00:00', user_id: user_d.id },
-            { duration: '06:30:00', user_id: user.id },
-            { duration: '04:00:00', user_id: user_d.id }
-          ]
+            expected_result = [
+              { duration: '09:00:00', user_id: user_d.id },
+              { duration: '06:30:00', user_id: user.id },
+              { duration: '04:00:00', user_id: user_d.id }
+            ]
 
-          mapped_data = result.map { |log| { duration: log.duration.strftime('%H:%M:%S'), user_id: log.user_id } }
+            mapped_data = result.map { |log| { duration: log.duration.strftime('%H:%M:%S'), user_id: log.user_id } }
 
-          expect(result.size).to eq(3)
-          expect(mapped_data).to eq(expected_result)
+            expect(result.size).to eq(3)
+            expect(mapped_data).to eq(expected_result)
+          end
         end
       end
     end

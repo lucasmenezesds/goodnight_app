@@ -32,5 +32,11 @@ class Api::V1::SleepLogsController < ApplicationController
 
   def set_user
     @user = User.find(params[:user_id])
+
+    user_not_found(@user)
+  end
+
+  def user_not_found(user_data)
+    render json: { errors: { message: 'User was not found' }, data: {} }, status: :unprocessable_entity if user_data.nil?
   end
 end
