@@ -6,7 +6,8 @@ class Api::V1::UsersController < ApplicationController
   # GET /api/v1/users
   def index
     all_users = User.select(:id, :name).all
-    render json: { data: UserBlueprint.render_as_json(all_users) }, status: :ok
+
+    render json: paginate(all_users, UserBlueprint), status: :ok
   end
 
   # GET /api/v1/users/:id

@@ -9,10 +9,14 @@ class Api::V1::RelationshipsController < ApplicationController
     following = @user.following
     followers = @user.followers
 
-    render json: { data: RelationshipBlueprint.render_as_json(@user,
-                                                              view: :all_relationships,
-                                                              following: following,
-                                                              followers: followers) }, status: :ok
+    paginated_following = Kaminari.paginate_array(following).page(page).per(per_page)
+    paginated_followers = Kaminari.paginate_array(followers).page(page).per(per_page)
+    total_count = paginated_following.total_count + paginated_followers.total_count
+
+    render json: paginate_at_option_data(@user, RelationshipBlueprint, total_count, options: { view: :all_relationships,
+                                                                                               following: paginated_following,
+                                                                                               followers: paginated_followers }),
+           status: :ok
   end
 
   # POST /api/v1/users/:user_id/relationships/:other_user_id
@@ -42,33 +46,39 @@ class Api::V1::RelationshipsController < ApplicationController
   # GET /api/v1/users/:user_id/relationships/following
   def following
     following = @user.following
+    paginated_following = Kaminari.paginate_array(following).page(page).per(per_page)
+    total_count = paginated_following.total_count
 
-    render json: { data: RelationshipBlueprint.render_as_json(@user,
-                                                              view: :following_relationships,
-                                                              following: following) }, status: :ok
+    render json: paginate_at_option_data(@user, RelationshipBlueprint, total_count,
+                                         options: { view: :following_relationships, following: paginated_following }),
+           status: :ok
   end
 
   # GET /api/v1/users/:user_id/relationships/followers
   def followers
     followers = @user.followers
+    paginated_followers = Kaminari.paginate_array(followers)
+    total_count = paginated_followers.total_count
 
-    render json: { data: RelationshipBlueprint.render_as_json(@user,
-                                                              view: :followers_relationships,
-                                                              followers: followers) }, status: :ok
+    render json: paginate_at_option_data(@user, RelationshipBlueprint, total_count,
+                                         options: { view: :followers_relationships, followers: paginated_followers }),
+           status: :ok
   end
 
   # GET /api/v1/users/:user_id/relationships/following/sleep_logs
   def sleep_logs_from_users_im_following
     @sleep_logs = SleepLogService.logs_from_people_user_is_following(@user)
 
-    render json: { data: SleepLogBlueprint.render_as_json(@sleep_logs, view: :with_user_name) }, status: :ok
+    render json: paginate(@sleep_logs, SleepLogBlueprint, { view: :with_user_name }),
+           status: :ok
   end
 
   # GET /api/v1/users/:user_id/relationships/followers/sleep_logs
   def sleep_logs_from_my_followers
     @sleep_logs = SleepLogService.logs_from_followers(@user)
 
-    render json: { data: SleepLogBlueprint.render_as_json(@sleep_logs, view: :with_user_name) }, status: :ok
+    render json: paginate(@sleep_logs, SleepLogBlueprint, { view: :with_user_name }),
+           status: :ok
   end
 
   private

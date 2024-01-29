@@ -14,9 +14,10 @@ describe Api::V1::UsersController do
         { user_id: user_a.id, name: user_a.name }.stringify_keys,
         { user_id: user_b.id, name: user_b.name }.stringify_keys
       ]
+      pagination_expected_data = { 'page_number' => 1, 'per_page' => 50, 'total_items' => 2 }
 
       expect(response).to be_successful
-      expect(response.parsed_body).to eq({ 'data' => expected_data })
+      expect(response.parsed_body).to eq({ 'data' => expected_data, 'pagination' => pagination_expected_data })
     end
   end
 

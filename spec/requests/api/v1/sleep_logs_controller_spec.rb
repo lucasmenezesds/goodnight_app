@@ -27,9 +27,10 @@ describe Api::V1::SleepLogsController do
         { uuid: log1.uuid, user_id: user.id, user_name: user.name, slept_at: timestamp, duration: nil, woke_up_at: nil }.stringify_keys,
         { uuid: log2.uuid, user_id: user.id, user_name: user.name, slept_at: timestamp2, duration: nil, woke_up_at: nil }.stringify_keys
       ]
+      expected_pagination_data = { 'page_number' => 1, 'per_page' => 50, 'total_items' => 2 }
 
       expect(response).to be_successful
-      expect(response.parsed_body).to eq({ 'data' => expected_data })
+      expect(response.parsed_body).to eq({ 'data' => expected_data, 'pagination' => expected_pagination_data })
     end
   end
 

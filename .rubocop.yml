@@ -28,6 +28,9 @@ FactoryBot/AssociationStyle:
 Layout/LineLength:
   Max: 150
 
+Metrics/AbcSize:
+  Max: 18
+
 Metrics/MethodLength:
   Max: 15
 
