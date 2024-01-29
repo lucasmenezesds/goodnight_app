@@ -80,7 +80,7 @@ The API has endpoints that are related to:
 - Sleep logs
 - Follower relationships
 
-You can find the available endpoints by importing the Postman collection that can be found in `api_doc/`
+You can find the available endpoints by importing the Insomnia collection that can be found in `api_doc/`
 
 **NOTES**:
 
@@ -90,3 +90,5 @@ You can find the available endpoints by importing the Postman collection that ca
   You can get an user as example requesting the `GET /api/v1/users` endpoint.
 
 - The default address of the server is going to be at: `localhost:3000/`
+
+- Only the logs from the past 7 days will show up, unless the code is changed at the `SleepLogService` module.
