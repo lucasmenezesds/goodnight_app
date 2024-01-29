@@ -5,9 +5,9 @@ class Api::V1::SleepLogsController < ApplicationController
 
   # GET /api/v1/users/:user_id/sleep_logs
   def index
-    @sleep_log = @user.sleep_logs.order(created_at: :desc)
+    @sleep_logs = @user.sleep_logs.order(created_at: :desc)
 
-    render json: { data: SleepLogBlueprint.render_as_json(@sleep_log, view: :with_user_name) }, status: :ok
+    render json: paginate(@sleep_logs, SleepLogBlueprint, { view: :with_user_name }), status: :ok
   end
 
   # GET /api/v1/users/:user_id/sleep_logs/last

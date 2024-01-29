@@ -35,9 +35,10 @@ describe Api::V1::RelationshipsController do
               { user_id: user_d.id, name: user_d.name }.stringify_keys
             ]
           }
+          pagination_expected_data = { 'page_number' => 1, 'per_page' => 50, 'total_items' => 5 }
 
           expect(response).to be_successful
-          expect(response.parsed_body).to eq({ 'data' => expected_data })
+          expect(response.parsed_body).to eq({ 'data' => expected_data, 'pagination' => pagination_expected_data })
         end
       end
 
@@ -50,9 +51,10 @@ describe Api::V1::RelationshipsController do
             'following' => [],
             'followers' => []
           }
+          pagination_expected_data = { 'page_number' => 1, 'per_page' => 50, 'total_items' => 0 }
 
           expect(response).to be_successful
-          expect(response.parsed_body).to eq({ 'data' => expected_data })
+          expect(response.parsed_body).to eq({ 'data' => expected_data, 'pagination' => pagination_expected_data })
         end
       end
 
@@ -67,9 +69,10 @@ describe Api::V1::RelationshipsController do
               { user_id: user_a.id, name: user_a.name }.stringify_keys
             ]
           }
+          pagination_expected_data = { 'page_number' => 1, 'per_page' => 50, 'total_items' => 1 }
 
           expect(response).to be_successful
-          expect(response.parsed_body).to eq({ 'data' => expected_data })
+          expect(response.parsed_body).to eq({ 'data' => expected_data, 'pagination' => pagination_expected_data })
         end
       end
     end
@@ -86,9 +89,10 @@ describe Api::V1::RelationshipsController do
               { user_id: user_c.id, name: user_c.name }.stringify_keys
             ]
           }
+          pagination_expected_data = { 'page_number' => 1, 'per_page' => 50, 'total_items' => 2 }
 
           expect(response).to have_http_status(:ok)
-          expect(response.parsed_body).to eq({ 'data' => expected_data })
+          expect(response.parsed_body).to eq({ 'data' => expected_data, 'pagination' => pagination_expected_data })
         end
       end
     end
@@ -106,9 +110,10 @@ describe Api::V1::RelationshipsController do
               { user_id: user_d.id, name: user_d.name }.stringify_keys
             ]
           }
+          pagination_expected_data = { 'page_number' => 1, 'per_page' => 50, 'total_items' => 3 }
 
           expect(response).to have_http_status(:ok)
-          expect(response.parsed_body).to eq({ 'data' => expected_data })
+          expect(response.parsed_body).to eq({ 'data' => expected_data, 'pagination' => pagination_expected_data })
         end
       end
     end
