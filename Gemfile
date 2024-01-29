@@ -8,6 +8,9 @@ ruby '3.1.4'
 # JSON Object Presenter for Ruby
 gem 'blueprinter', '~> 0.25.3'
 
+# Pagination
+gem 'kaminari', '~> 1.2'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.7', '>= 6.1.7.3'
 
